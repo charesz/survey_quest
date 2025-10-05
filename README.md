@@ -15,7 +15,6 @@ Who will you become?
 - 🧙‍♂️ **Interactive Questionnaire** – Each response shapes your destiny.  
 - 🏰 **Fantasy-Styled Interface** – Pixel aesthetic meets medieval charm.  
 - 🔢 **Automatic Validation** – No skipping fate! Every question must be answered.  
-- 🎨 **Fully Customizable** – Add new questions, results, or classes with ease.  
 - 🔮 **Instant Results** – Discover your alignment at journey’s end.
 
 ---
