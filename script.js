@@ -291,7 +291,7 @@ function calculateResult() {
     resultImageContainer.style.animation = `fadeIn 1.5s forwards ${TYPING_DELAY + 0.2}s`;
 
     resultImageContainer.style.backgroundImage = `url('${resultInfo.imagePath}')`;
-    resultImageContainer.style.backgroundColor = transparent;
+    resultImageContainer.style.backgroundColor = `transparent`;
     resultImageContainer.style.border = `4px solid ${resultInfo.color}`;
 
     window.scrollTo(0, 0);
