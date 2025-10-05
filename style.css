@@ -1,0 +1,341 @@
+/*
+====================================================
+| 1. PIXEL GLOBAL STYLES & FONT
+====================================================
+*/
+:root {
+    --background-color: #222e23;
+    --text-color: #e8d7a1;
+    --accent-color: #a45a52;
+    --pixel-border-thin: 4px;
+    --pixel-border-thick: 8px;
+    --shake-duration: 0.5s;
+    --pixel-size: 2px;
+    --result-animation-time: 1s; /* Faster typing speed */
+}
+
+body {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: var(--background-color); 
+    text-shadow: var(--pixel-size) var(--pixel-size) 0 #000;
+}
+
+/*
+====================================================
+| 2. VIDEO BACKGROUND STYLES
+====================================================
+*/
+#video-bg {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -2;
+    background: url('bg.gif') no-repeat center center/cover;
+}
+
+.quiz-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: 
+        repeating-linear-gradient(0deg, var(--background-color) 0, var(--background-color) 1px, transparent 1px, transparent 3px), 
+        repeating-linear-gradient(90deg, var(--background-color) 0, var(--background-color) 1px, transparent 1px, transparent 3px);
+    background-size: var(--pixel-size) var(--pixel-size);
+    opacity: 0.5;
+}
+
+/*
+====================================================
+| 3. CONTAINER & LAYOUT
+====================================================
+*/
+.quiz-container {
+    width: 100%;
+    max-width: 650px;
+    min-height: 500px;
+    background-color: rgba(0, 0, 0, 0.9);
+    border: var(--pixel-border-thick) solid var(--accent-color);
+    box-shadow: 
+        var(--pixel-size) var(--pixel-size) 0 var(--text-color), 
+        var(--pixel-size) var(--pixel-size) 0 var(--pixel-border-thick) var(--accent-color);
+    padding: 30px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 1s ease-in-out;
+    z-index: 1;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--text-color);
+    padding-bottom: 15px;
+}
+
+.header h1 {
+    font-size: 1.3em;
+    letter-spacing: 3px;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    box-sizing: border-box;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+    transform: translateX(100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen.active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(0);
+    position: static; 
+    min-height: inherit; 
+    justify-content: flex-start;
+    padding: 0; 
+    margin-top: 20px;
+}
+
+.question-panel {
+    width: 90%;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 15px;
+    border: var(--pixel-border-thin) solid var(--text-color);
+    background-color: #333;
+    text-align: center;
+    box-shadow: var(--pixel-size) var(--pixel-size) 0px var(--accent-color);
+}
+
+.question-panel h2 {
+    font-size: 1.1em;
+    margin-bottom: 20px;
+    color: #d1b764; 
+    text-shadow: 1px 1px 0 #000;
+}
+
+/*
+====================================================
+| 4. INPUT & BUTTON STYLES
+====================================================
+*/
+button {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    padding: 10px 15px;
+    margin-top: 25px;
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: 2px solid var(--text-color);
+    cursor: pointer;
+    box-shadow: 0 var(--pixel-size) 0 #80403a; 
+    transition: background-color 0.1s, transform 0.1s, box-shadow 0.1s;
+}
+
+button:hover { background-color: #c47a72; }
+button:active, button:focus {
+    outline: none;
+    background-color: #843a32;
+    box-shadow: 0 0 0 #80403a;
+    transform: translateY(var(--pixel-size));
+}
+
+#playerName {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    width: 90%;
+    padding: 10px;
+    margin: 15px auto;
+    display: block;
+    background-color: #111;
+    color: var(--text-color);
+    border: 2px solid var(--accent-color);
+    text-align: center;
+    box-sizing: border-box;
+    text-transform: uppercase;
+}
+#playerName:focus {
+    outline: none;
+    border-color: #e8d7a1;
+    box-shadow: 0 0 0 2px var(--text-color);
+}
+
+/* Radio Buttons */
+.option-container { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
+.option-container input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.custom-radio {
+    font-family: 'Press Start 2P', monospace;
+    display: block; 
+    padding: 10px 10px 10px 30px;
+    border: 2px solid var(--text-color);
+    background-color: #1a1a1a; cursor: pointer; text-align: left;
+    transition: background-color 0.1s, border-color 0.1s, box-shadow 0.1s;
+    position: relative; user-select: none;
+    line-height: 1.4;
+}
+.custom-radio::before {
+    content: "•"; 
+    position: absolute; 
+    left: 8px;
+    top: 50%; 
+    transform: translateY(-50%); 
+    width: 10px; height: 10px; color: var(--text-color);
+    font-size: 1.2em; line-height: 1; opacity: 0.5; transition: opacity 0.1s;
+}
+.custom-radio:hover { background-color: #2b2b2b; }
+
+/* ----------------------------------------------------
+   | Checked State (Full Selection)
+   ---------------------------------------------------- */
+.option-container input[type="radio"]:checked + .custom-radio {
+    /* ONLY checked applies the full, final color */
+    background-color: var(--accent-color); 
+    border-color: #e8d7a1;
+    box-shadow: 0 0 0 1px #e8d7a1; 
+}
+
+
+/* ----------------------------------------------------
+   | Focus State (Keyboard Navigation Highlight)
+   ---------------------------------------------------- */
+.option-container input[type="radio"]:focus + .custom-radio {
+    /* Use a subtle border/outline change for focus */
+    outline: 2px solid var(--text-color); /* Add a visible keyboard focus indicator */
+    outline-offset: -2px; 
+    border-color: var(--text-color); /* Keep border clear */
+    
+}
+
+/*hover styel*/
+.custom-radio:hover { 
+    background-color: #2b2b2b; 
+}
+
+.option-container input[type="radio"]:checked + .custom-radio::before {
+    content: "►"; opacity: 1; left: 5px;
+    color: #fff;
+}
+
+/*
+====================================================
+| 5. VALIDATION & FEEDBACK
+====================================================
+*/
+.validation-error {
+    animation: shake var(--shake-duration) linear;
+    border-color: #ff0000 !important;
+    box-shadow: var(--pixel-size) var(--pixel-size) 0px #ff0000 !important;
+}
+#messageBox {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    padding: 15px 20px; background-color: #b30000; color: #fff;
+    border: 2px solid #ff4d4d; box-shadow: 4px 4px 0px #800000;
+    z-index: 1000; font-size: 1em; display: none; text-align: center;
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+    20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+/*
+====================================================
+| 6. PROGRESS BAR & RESULT SCREEN
+====================================================
+*/
+#progress-bar-container {
+    width: 100%; display: flex; justify-content: space-around;
+    align-items: center; padding: 0 10%; margin-bottom: 25px; box-sizing: border-box;
+}
+.crystal {
+    width: 8px; height: 8px; background-color: #333;
+    border: 2px solid var(--text-color); transform: rotate(45deg); 
+    transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+}
+.crystal.filled {
+    background-color: #00ff00; border-color: #fff; box-shadow: 0 0 5px #00ff00;
+}
+
+.desc {
+  font-family: "IM Fell English", serif;
+  text-align: justify;
+  line-height: 1.6;
+  color: #f5e6c5;
+  font-size: 0.95rem;
+}
+
+.traits {
+  font-family: "Cinzel", serif;
+  color: #ffd966;
+  text-align: justify;
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.motto {
+  font-family: "Great Vibes", cursive;
+  color: #e2e2e2;
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+#resultScreen { text-align: center; }
+
+#finalClassName {
+    font-size: 1.4em; margin: 20px 0 10px; min-height: 1.5em;
+    overflow: hidden; border-right: .1em solid orange; 
+    white-space: nowrap; letter-spacing: .05em; animation: none; 
+}
+@keyframes typing { from { width: 0 } to { width: 80% } }
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--text-color); }
+}
+
+#resultFlavorText {
+    font-size: 1em; margin-bottom: 30px; color: #fff; opacity: 0; line-height: 1.6;
+}
+
+#finalClassImage {
+    width: 128px; height: 128px; margin: 20px auto 20px;
+    border-radius: 0; background-size: cover; background-position: center;
+    border: transparent; background-color: transparent;
+    opacity: 0; 
+    image-rendering: pixelated;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}

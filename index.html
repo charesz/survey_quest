@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Seeker’s Quest</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=IM+Fell+English&family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="scroll.png">
+</head>
+<body>
+    <video autoplay muted loop id="video-bg">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-floating-lights-in-a-dark-hall-3631-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div id="messageBox"></div>
+
+    <div class="quiz-container">
+        
+        <div class="header">
+            <h1>The Seeker’s Quest</h1>
+        </div>
+
+        <div id="progress-bar-container">
+            <div class="crystal" data-q="1"></div>
+            <div class="crystal" data-q="2"></div>
+            <div class="crystal" data-q="3"></div>
+            <div class="crystal" data-q="4"></div>
+            <div class="crystal" data-q="5"></div>
+        </div>
+
+        <div id="startScreen" class="screen active">
+            <div class="question-panel" id="name-panel">
+                <h2>The realm awaits.</h2>
+                <p>Inscribe thy noble name, seeker of fate:</p>
+                <input type="text" id="playerName" placeholder="MAX 20 CHARACTERS" maxlength="20">
+                <button onclick="startQuiz()">Reveal thy next fate</button>
+            </div>
+        </div>
+
+        <div id="q1Screen" class="screen">
+            <div class="question-panel" id="q1-panel">
+                <h2>Quest I — The Wild Awakens</h2>
+                <p>A beast emerges from the shadowed wood. How dost thou respond?</p>
+                <div class="option-container">
+                    <input type="radio" id="q1a1" name="q1" value="Paladin">
+                    <label for="q1a1" class="custom-radio" role="radio" aria-checked="false">With resolve as steel and will as one.</label>
+
+                    <input type="radio" id="q1a2" name="q1" value="Sorcerer">
+                    <label for="q1a2" class="custom-radio" role="radio" aria-checked="false">Find order within chaos.</label>
+
+                    <input type="radio" id="q1a3" name="q1" value="Assassin">
+                    <label for="q1a3" class="custom-radio" role="radio" aria-checked="false">One chance, one strike</label>
+
+                    <input type="radio" id="q1a4" name="q1" value="Cleric">
+                    <label for="q1a4" class="custom-radio" role="radio" aria-checked="false">Let faith be thy shield.</label>
+                </div>
+                <button onclick="nextQuestion('q1Screen', 'q2Screen', 'q1')">Next Quest</button>
+            </div>
+        </div>
+
+        <div id="q2Screen" class="screen">
+            <div class="question-panel" id="q2-panel">
+                <h2>Quest II — The Gilded Choice</h2>
+                <p>Before thee lies a chest of gold.
+                    What dost thou seek within?</p>
+                <div class="option-container">
+                    <input type="radio" id="q2a1" name="q2" value="Paladin">
+                    <label for="q2a1" class="custom-radio" role="radio" aria-checked="false">Protection from what lies ahead.</label>
+
+                    <input type="radio" id="q2a2" name="q2" value="Sorcerer">
+                    <label for="q2a2" class="custom-radio" role="radio" aria-checked="false">Knowledge that transcends time.</label>
+
+                    <input type="radio" id="q2a3" name="q2" value="Assassin">
+                    <label for="q2a3" class="custom-radio" role="radio" aria-checked="false">The means to slip past danger obscured.</label>
+
+                    <input type="radio" id="q2a4" name="q2" value="Cleric">
+                    <label for="q2a4" class="custom-radio" role="radio" aria-checked="false">A chance to mend another’s sorrow.</label>
+                </div>
+                <button onclick="nextQuestion('q2Screen', 'q3Screen', 'q2')">Next Quest</button>
+            </div>
+        </div>
+
+        <div id="q3Screen" class="screen">
+            <div class="question-panel" id="q3-panel">
+                <h2>Quest III — The Trickster’s Path</h2>
+                <p>A hooded stranger offers a shortcut.
+                    Dost thou trust him?</p>
+                <div class="option-container">
+                    <input type="radio" id="q3a1" name="q3" value="Trust">
+                    <label for="q3a1" class="custom-radio" role="radio" aria-checked="false">Fortune favors the bold.</label>
+
+                    <input type="radio" id="q3a2" name="q3" value="Distrust">
+                    <label for="q3a2" class="custom-radio" role="radio" aria-checked="false">No road of deceit is worth the risk.</label>
+                </div>
+                <button onclick="nextQuestion('q3Screen', 'q4Screen', 'q3')">Next Quest</button>
+            </div>
+        </div>
+
+        <div id="q4Screen" class="screen">
+            <div class="question-panel" id="q4-panel">
+                <h2>Quest IV — The Iron Gate</h2>
+                <p>The tyrant’s fortress blocks thy way.
+                    How dost thou enter?</p>
+                <div class="option-container">
+                    <input type="radio" id="q4r1" name="q4" value="1">
+                    <label for="q4r1" class="custom-radio" role="radio" aria-checked="false">Silent as the night.</label>
+
+                    <input type="radio" id="q4r2" name="q4" value="2">
+                    <label for="q4r2" class="custom-radio" role="radio" aria-checked="false">Swift as the coming storm.</label>
+
+                    <input type="radio" id="q4r3" name="q4" value="3">
+                    <label for="q4r3" class="custom-radio" role="radio" aria-checked="false">With fire and fury.</label>
+
+                    <input type="radio" id="q4r4" name="q4" value="4">
+                    <label for="q4r4" class="custom-radio" role="radio" aria-checked="false">In shining light.</label>
+
+                    <input type="radio" id="q4r5" name="q4" value="5">
+                    <label for="q4r5" class="custom-radio" role="radio" aria-checked="false">With grace and mercy.</label>
+                </div>
+                <button onclick="nextQuestion('q4Screen', 'q5Screen', 'q4')">Next Quest</button>
+            </div>
+        </div>
+
+        <div id="q5Screen" class="screen">
+            <div class="question-panel" id="q5-panel">
+                <h2>Trial V — The Tale’s End</h2>
+                <p>Thy journey nears its quiet close. What lingers in thy spirit’s wake?</p>
+                <div class="option-container">
+                    <input type="radio" id="q5a1" name="q5" value="Paladin">
+                    <label for="q5a1" class="custom-radio" role="radio" aria-checked="false">The steadfast honor of a vow kept.</label>
+
+                    <input type="radio" id="q5a2" name="q5" value="Sorcerer">
+                    <label for="q5a2" class="custom-radio" role="radio" aria-checked="false">The arcane whispers of truths unveiled.</label>
+
+                    <input type="radio" id="q5a3" name="q5" value="Assassin">
+                    <label for="q5a3" class="custom-radio" role="radio" aria-checked="false">The hush of deeds done in the dark.</label>
+
+                    <input type="radio" id="q5a4" name="q5" value="Cleric">
+                    <label for="q5a4" class="custom-radio" role="radio" aria-checked="false">The gentle solace of lives restored.</label>
+                </div>
+                <button onclick="submitQuiz()">Reveal Thy Fate!</button>
+            </div>
+        </div>
+
+        <div id="resultScreen" class="screen">
+            <h2 id="finalClassName"></h2>
+            <div id="finalClassImage"></div>
+            <p id="resultFlavorText"></p>
+            <button onclick="window.location.reload()">Start A New Quest</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
